@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -24,12 +25,16 @@ public class LoginPage extends BasePage {
         new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(deliveryAddresses));
         deliveryAddresses.click();
         new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(submitAddressButton));
-       submitAddressButton.click();
+        submitAddressButton.click();
     }
 
     public void chooseFoodType(String foodType) {
-        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
-                .elementToBeClickable(By.xpath(String.format(xpathForFoodCategory,foodType))));
-        driver.findElement(By.xpath(String.format(xpathForFoodCategory, foodType))).click();
+        try {
+            new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
+                    .elementToBeClickable(By.xpath(String.format(xpathForFoodCategory, foodType))));
+            driver.findElement(By.xpath(String.format(xpathForFoodCategory, foodType))).click();
+        } catch (TimeoutException e) {
+            clickByJavaScriptExecutor(driver.findElement(By.xpath(String.format(xpathForFoodCategory, foodType))));
+        }
     }
 }
