@@ -16,15 +16,20 @@ public class LoginPage extends BasePage {
 
     @FindBy(xpath = "//div[text()='Պահպանված հասցեներ']")
     protected WebElement deliveryAddresses;
+    @FindBy(xpath = "//ul[@data-id='addresses']/li")
+    protected WebElement submitAddressButton;
     protected String xpathForFoodCategory = "//span[text()='%s']";
 
     public void setDeliveryAddress() {
-        new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(deliveryAddresses));
+        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(deliveryAddresses));
         deliveryAddresses.click();
-        driver.findElement(By.xpath("//ul[@data-id='addresses']/li")).click();
+        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(submitAddressButton));
+       submitAddressButton.click();
     }
 
     public void chooseFoodType(String foodType) {
+        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
+                .elementToBeClickable(By.xpath(String.format(xpathForFoodCategory,foodType))));
         driver.findElement(By.xpath(String.format(xpathForFoodCategory, foodType))).click();
     }
 }

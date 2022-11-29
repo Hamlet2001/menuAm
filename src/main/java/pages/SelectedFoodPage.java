@@ -44,6 +44,8 @@ public class SelectedFoodPage extends BasePage {
     public int getSelectedFoodCost(String preferredFood) {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
                 .elementToBeClickable(By.xpath(String.format(xpathForPreferredFood, preferredFood))));
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath(String.format(xpathForAmount, preferredFood))));
         return Integer.parseInt(driver.findElement(By.xpath(String.format(xpathForAmount, preferredFood))).getText());
     }
 

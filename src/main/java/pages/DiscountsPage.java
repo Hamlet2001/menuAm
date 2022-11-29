@@ -22,6 +22,8 @@ public class DiscountsPage extends BasePage {
             "//h3[text()='%s']//parent::div/following-sibling::div/div[@data-id='add-to-cart']";
 
     public void addAConcreteProductToTheCart(String concreteProductFromDiscountsPage) {
+        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.
+                elementToBeClickable(By.xpath(String.format(xpathForConcreteProductToAddToCart, concreteProductFromDiscountsPage))));
         driver.findElement(By.xpath(String.format(xpathForConcreteProductToAddToCart, concreteProductFromDiscountsPage))).click();
     }
 
