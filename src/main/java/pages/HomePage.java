@@ -1,9 +1,6 @@
 package pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -33,8 +30,12 @@ public class HomePage extends BasePage {
     protected WebElement showMoreButton;
 
     public void loginAccount() {
-        new WebDriverWait(driver,Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(loginButton));
-        loginButton.click();
+        try {
+            new WebDriverWait(driver,Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(loginButton));
+            loginButton.click();
+        }catch (TimeoutException e){
+            clickByJavaScriptExecutor(loginButton);
+        }
         driver.findElement(By.cssSelector("input[name='user']")).sendKeys("hamlet2001@inbox.ru");
         WebElement pwd = driver.findElement(By.cssSelector("input[name='pwd']"));
         pwd.sendKeys("h123456");
