@@ -83,7 +83,7 @@ public class CartFunctionalityTests {
     }
 
     @Test(priority = 6)
-    public void TestSix() throws InterruptedException {
+    public void TestSix() {
         CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.clearCart();
         cartPage.clickOnDiscountsButton();
@@ -94,9 +94,6 @@ public class CartFunctionalityTests {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals("1", cartPage.getCountOfItemsInTheCart());
         softAssert.assertEquals(concreteProductFromDiscountsPage, cartPage.getTheNameOfTheProductFromTheCart());
-        discountsPage.addAConcreteProductToTheCart(concreteProductFromDiscountsPage);
-        Thread.sleep(2000);
-        softAssert.assertEquals("2", cartPage.getCountOfItemsInTheCart());
         softAssert.assertAll();
     }
 

@@ -1,6 +1,5 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -56,7 +55,7 @@ public class CartPage extends BasePage {
     }
 
     public int getShippingCost() {
-        new WebDriverWait(driver,Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(spanForDeliveryCost));
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(spanForDeliveryCost));
         return Integer.parseInt(spanForDeliveryCost.getText());
     }
 
@@ -71,7 +70,7 @@ public class CartPage extends BasePage {
     }
 
     public String getPartnerName() {
-        new WebDriverWait(driver,Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(divForPartner));
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(divForPartner));
         return divForPartner.getText();
     }
 
@@ -81,18 +80,16 @@ public class CartPage extends BasePage {
             new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(clearAllButton));
             clearAllButton.click();
-        }catch (Exception e){
+        } catch (Exception e) {
             clickByJavaScriptExecutor(clearAllButton);
         }
         try {
             new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(buttonToEmpty));
             buttonToEmpty.click();
-        }catch (Exception e){
+        } catch (Exception e) {
             clickByJavaScriptExecutor(buttonToEmpty);
         }
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
-                .invisibilityOfElementLocated(By.xpath("//div[text()='Ձեր զամբյուղը դատարկ է:']")));
     }
 
     public int getTheExpectedFullCost() {
