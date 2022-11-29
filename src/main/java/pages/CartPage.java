@@ -56,6 +56,7 @@ public class CartPage extends BasePage {
     }
 
     public int getShippingCost() {
+        new WebDriverWait(driver,Duration.ofSeconds(15)).until(ExpectedConditions.visibilityOf(spanForDeliveryCost));
         return Integer.parseInt(spanForDeliveryCost.getText());
     }
 

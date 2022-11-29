@@ -6,8 +6,8 @@ import org.testng.asserts.SoftAssert;
 import pages.*;
 
 public class CartFunctionalityTests {
-    private final String partnerName = "33 Պիցցաս Թումանյան";
-    private final String concreteTypeOfFood = "Կոմբո N2";
+    private final String partnerName = "Պիցցա Միցցա";
+    private final String concreteTypeOfFood = "Պիցցա Կեսար";
 
     @BeforeMethod
     public void initDriver() {
