@@ -77,12 +77,20 @@ public class CartPage extends BasePage {
 
     public void clearCart() {
         openCart();
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
-                .elementToBeClickable(clearAllButton));
-        clearAllButton.click();
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
-                .elementToBeClickable(buttonToEmpty));
-        buttonToEmpty.click();
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
+                    .elementToBeClickable(clearAllButton));
+            clearAllButton.click();
+        }catch (Exception e){
+            clickByJavaScriptExecutor(clearAllButton);
+        }
+        try {
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
+                    .elementToBeClickable(buttonToEmpty));
+            buttonToEmpty.click();
+        }catch (Exception e){
+            clickByJavaScriptExecutor(buttonToEmpty);
+        }
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .invisibilityOfElementLocated(By.xpath("//div[text()='Ձեր զամբյուղը դատարկ է:']")));
     }
