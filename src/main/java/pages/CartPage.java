@@ -47,10 +47,9 @@ public class CartPage extends BasePage {
             new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
                     .elementToBeClickable(cartButton));
             cartButton.click();
-        }catch (Exception e){
+        } catch (Exception e) {
             clickByJavaScriptExecutor(cartButton);
         }
-
     }
 
     public String getCountOfItemsInTheCart() {
@@ -122,7 +121,7 @@ public class CartPage extends BasePage {
             new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(discountsButton));
             discountsButton.click();
-        }catch (Exception e){
+        } catch (Exception e) {
             clickByJavaScriptExecutor(discountsButton);
         }
     }
