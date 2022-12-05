@@ -115,8 +115,10 @@ public class CartFunctionalityTests {
     public void clearCartAndLogOut() {
         CartPage cartPage = new CartPage(DriverFactory.getDriver());
         cartPage.openCart();
+        cartPage.waitForCartPageLoaded();
         cartPage.clearCart();
         LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
+        loginPage.waitForLoginPageLoaded();
         loginPage.logout();
     }
 

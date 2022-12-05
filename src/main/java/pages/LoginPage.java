@@ -1,7 +1,6 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -64,7 +63,7 @@ public class LoginPage extends BasePage {
         } catch (Exception e) {
             clickByJavaScriptExecutor(buttonForLogout);
         }
-        new WebDriverWait(driver,ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(loginButton));
+        new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(loginButton));
     }
 
     public void clickOnDiscountsButton() {

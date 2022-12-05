@@ -41,7 +41,6 @@ public class CartPage extends BasePage {
         } catch (Exception e) {
             clickByJavaScriptExecutor(cartButton);
         }
-        new WebDriverWait(driver,Duration.ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(clearAllButton));
     }
 
     public String getCountOfItemsInTheCart() {
@@ -98,6 +97,9 @@ public class CartPage extends BasePage {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
                 .visibilityOf(divForProductNameInCart));
         return divForProductNameInCart.getText();
+    }
+    public void waitForCartPageLoaded(){
+        new WebDriverWait(driver,Duration.ofSeconds(15)).until(ExpectedConditions.visibilityOf(clearAllButton));
     }
 }
 
