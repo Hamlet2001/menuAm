@@ -31,10 +31,10 @@ public class HomePage extends BasePage {
 
     public void loginAccount() {
         try {
-            new WebDriverWait(driver,Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(loginButton));
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(loginButton));
             loginButton.click();
-        }catch (TimeoutException e){
-            clickByJavaScriptExecutor(loginButton);
+        } catch (TimeoutException e) {
+             clickByJavaScriptExecutor(loginButton);
         }
         driver.findElement(By.cssSelector("input[name='user']")).sendKeys("hamlet2001@inbox.ru");
         WebElement pwd = driver.findElement(By.cssSelector("input[name='pwd']"));
@@ -45,13 +45,13 @@ public class HomePage extends BasePage {
     public void waitForHomePageLoaded() {
         try {
             if (advertisement.isDisplayed()) {
-                new WebDriverWait(driver,Duration.ofSeconds(15)).
+                new WebDriverWait(driver, Duration.ofSeconds(15)).
                         until(ExpectedConditions.elementToBeClickable(buttonForCloseAdvertisement));
                 buttonForCloseAdvertisement.click();
             }
         } catch (NoSuchElementException ignored) {
         }
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
                 elementToBeClickable(showMoreButton));
     }
 }

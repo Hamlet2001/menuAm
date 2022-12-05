@@ -17,5 +17,6 @@ public abstract class BasePage {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", element);
     }
+
 }
 
