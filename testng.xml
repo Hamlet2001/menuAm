@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="MenuAmAllTests" verbose="1" >
-    <test name="TestMenuAm" >
+<suite name="Parallel Test Suite" thread-count="2" parallel="methods" >    <test name="TestMenuAm" >
         <classes>
             <class name="CartFunctionalityTests" />
         </classes>

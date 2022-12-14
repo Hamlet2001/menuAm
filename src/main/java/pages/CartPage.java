@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static java.time.Duration.ofSeconds;
+
 public class CartPage extends BasePage {
 
     public CartPage(WebDriver driver) {
@@ -15,32 +17,41 @@ public class CartPage extends BasePage {
     }
 
     @FindBy(xpath = "//button[@aria-label='basket']")
-    protected WebElement cartButton;
+    private WebElement cartButton;
     @FindBy(xpath = "//span[@data-id='cost']")
-    protected WebElement spanForCost;
+    private WebElement spanForCost;
     @FindBy(xpath = "//span[contains(@class, 'count')]/span")
-    protected WebElement spanForCountOfItemsInCart;
+    private WebElement spanForCountOfItemsInCart;
     @FindBy(xpath = "//span[@data-id='partnerDelivery']")
-    protected WebElement spanForDeliveryCost;
+    private WebElement spanForDeliveryCost;
     @FindBy(xpath = "//*[@id='content']/div/div[3]/div[3]/div[2]/div")
-    protected WebElement spanForFullCost;
+    private WebElement spanForFullCost;
     @FindBy(xpath = "//div[@data-id='partnerName']")
-    protected WebElement divForPartner;
+    private WebElement divForPartner;
     @FindBy(xpath = "//a[@data-id='deleteAll']")
-    protected WebElement clearAllButton;
+    private WebElement clearAllButton;
     @FindBy(xpath = "//span[text()='Դատարկել']")
-    protected WebElement buttonToEmpty;
+    private WebElement buttonToEmpty;
     @FindBy(xpath = "//div[@data-id='quantity']/parent::div/parent::div/preceding-sibling::div/div[1]")
-    protected WebElement divForProductNameInCart;
+    private WebElement divForProductNameInCart;
+    @FindBy(xpath = "//span[text()='Պատվիրել հիմա']")
+    private WebElement orderNowButton;
+    @FindBy(xpath = "//button[@aria-label='account control']")
+    private WebElement accountButton;
+    @FindBy(xpath = "//button[text()='Ելք']")
+    private WebElement buttonForLogout;
+    @FindBy(xpath = "//span[text()='Մուտք']")
+    private WebElement loginButton;
 
-    public void openCart() {
+    public CartPage openCart() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
                     .elementToBeClickable(cartButton));
             cartButton.click();
         } catch (Exception e) {
             clickByJavaScriptExecutor(cartButton);
         }
+        return this;
     }
 
     public String getCountOfItemsInTheCart() {
@@ -69,21 +80,22 @@ public class CartPage extends BasePage {
         return divForPartner.getText();
     }
 
-    public void clearCart() {
+    public CartPage clearCart() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
                     .elementToBeClickable(clearAllButton));
             clearAllButton.click();
         } catch (Exception e) {
             clickByJavaScriptExecutor(clearAllButton);
         }
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
                     .elementToBeClickable(buttonToEmpty));
             buttonToEmpty.click();
         } catch (Exception e) {
             clickByJavaScriptExecutor(buttonToEmpty);
         }
+        return this;
     }
 
     public int getTheExpectedFullCost() {
@@ -98,8 +110,38 @@ public class CartPage extends BasePage {
                 .visibilityOf(divForProductNameInCart));
         return divForProductNameInCart.getText();
     }
-    public void waitForCartPageLoaded(){
-        new WebDriverWait(driver,Duration.ofSeconds(15)).until(ExpectedConditions.visibilityOf(clearAllButton));
+
+    public CartPage waitForCartPageLoaded() {
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(orderNowButton));
+        return this;
+    }
+
+    public void logout() {
+        try {
+            new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions
+                    .elementToBeClickable(accountButton));
+            accountButton.click();
+        } catch (Exception e) {
+            clickByJavaScriptExecutor(accountButton);
+        }
+        try {
+            new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions
+                    .elementToBeClickable(buttonForLogout));
+            buttonForLogout.click();
+        } catch (Exception e) {
+            clickByJavaScriptExecutor(buttonForLogout);
+        }
+        new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(loginButton));
+    }
+
+    @Override
+    protected void load() {
+
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+
     }
 }
 

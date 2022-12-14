@@ -17,8 +17,8 @@ public class DiscountsPage extends BasePage {
     }
 
     @FindBy(xpath = "//div[@data-id='product']")
-    protected List<WebElement> listOfOffers;
-    protected String xpathForConcreteProductToAddToCart =
+    private List<WebElement> listOfOffers;
+    private String xpathForConcreteProductToAddToCart =
             "//h3[text()='%s']//parent::div/following-sibling::div/div[@data-id='add-to-cart']";
 
     public void addAConcreteProductToTheCart(String concreteProductFromDiscountsPage) {
@@ -27,10 +27,21 @@ public class DiscountsPage extends BasePage {
         driver.findElement(By.xpath(String.format(xpathForConcreteProductToAddToCart, concreteProductFromDiscountsPage))).click();
     }
 
-    public void waitForDiscountsPageLoaded() {
+    public DiscountsPage waitForDiscountsPageLoaded() {
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//div[@data-id='product']"), 0));
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.elementToBeClickable(listOfOffers.get(listOfOffers.size() - 1)));
+        return this;
+    }
+
+    @Override
+    protected void load() {
+
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+
     }
 }

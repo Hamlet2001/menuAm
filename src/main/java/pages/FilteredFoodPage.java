@@ -1,5 +1,6 @@
 package pages;
 
+import initDriver.DriverFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,22 +22,28 @@ public class FilteredFoodPage extends BasePage {
     }
 
     @FindBy(xpath = "//h2[@data-id='name']")
-    protected List<WebElement> listOdPartners;
-    protected String xpathForPartner = "//h2[text()='%s']";
-    protected String xpathForPartnerShippingCost =
+    private List<WebElement> listOdPartners;
+    private final String xpathForPartner = "//h2[text()='%s']";
+    private final String xpathForPartnerShippingCost =
             "//h2[text()='%s']//parent::a/parent::div/parent::div/following-sibling::div//span[@data-id='fee']";
 
-    public void waitForAllPartnersLoaded() {
+    public FilteredFoodPage waitForAllPartnersLoaded() {
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//h2[@data-id='name']"), 0));
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.elementToBeClickable(listOdPartners.get(listOdPartners.size() - 1)));
+        return this;
     }
 
-    public void choosePartner(String partner) {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
-                .elementToBeClickable(By.xpath(String.format(xpathForPartner, partner))));
-        driver.findElement(By.xpath(String.format(xpathForPartner, partner))).click();
+    public SelectedPartnerSPage choosePartner(String partner) {
+       try {
+           new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+                   .elementToBeClickable(By.xpath(String.format(xpathForPartner, partner))));
+           driver.findElement(By.xpath(String.format(xpathForPartner, partner))).click();
+       }catch (Exception e){
+           clickByJavaScriptExecutor(driver.findElement(By.xpath(String.format(xpathForPartner, partner))));
+       }
+       return new SelectedPartnerSPage(DriverFactory.getDriver());
     }
 
     public int getShippingCost(String partner) {
@@ -48,5 +55,15 @@ public class FilteredFoodPage extends BasePage {
         matcher.find();
         int shippingCost = Integer.parseInt(matcher.group());
         return shippingCost;
+    }
+
+    @Override
+    protected void load() {
+
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+
     }
 }

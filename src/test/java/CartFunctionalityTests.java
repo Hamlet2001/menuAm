@@ -1,10 +1,7 @@
 import initDriver.BrowserType;
 import initDriver.DriverFactory;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.*;
 
@@ -14,33 +11,31 @@ public class CartFunctionalityTests {
 
     public void addProductFromFiltersToCart() {
         String preferredFoodType = "Պիցցա";
-        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
-        loginPage.chooseFoodType(preferredFoodType);
-        FilteredFoodPage filteredFoodPage = new FilteredFoodPage(DriverFactory.getDriver());
-        filteredFoodPage.waitForAllPartnersLoaded();
-        filteredFoodPage.choosePartner(partnerName);
-        SelectedPartnerSPage selectedPartnerSPage = new SelectedPartnerSPage(DriverFactory.getDriver());
-        selectedPartnerSPage.waitSelectedFoodPageLoaded();
-        selectedPartnerSPage.chooseFoodAndAddToCard(concreteTypeOfFood);
+        new LoginPage(DriverFactory.getDriver())
+                .chooseFoodType(preferredFoodType)
+                .waitForAllPartnersLoaded()
+                .choosePartner(partnerName)
+                .waitForSelectedPartnersPageLoaded()
+                .chooseFood(concreteTypeOfFood)
+                .addToCart();
     }
 
     @BeforeMethod
-    public void initDriverAndLoginAccountAndSetDeliveryAddress() {
+    public void initDriverAndOpenHomePageAndSignInAccountAndSetDeliveryAddress() {
         DriverFactory.initDriver(BrowserType.CHROME);
-        HomePage homePage = new HomePage(DriverFactory.getDriver());
-        homePage.openHomePage();
-        homePage.waitForHomePageLoaded();
-        homePage.loginAccount();
-        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
-        loginPage.waitForLoginPageLoaded();
-        loginPage.setDeliveryAddress();
+        new HomePage(DriverFactory.getDriver())
+                .openHomePage()
+                .signIn()
+                .waitForLoginPageLoaded()
+                .setDeliveryAddress();
     }
 
     @Test
     public void TestOne() {
         addProductFromFiltersToCart();
-        CartPage cartPage = new CartPage(DriverFactory.getDriver());
-        cartPage.openCart();
+        CartPage cartPage = new CartPage(DriverFactory.getDriver())
+                .openCart()
+                .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals("1", cartPage.getCountOfItemsInTheCart());
         softAssert.assertAll();
@@ -49,8 +44,9 @@ public class CartFunctionalityTests {
     @Test
     public void TestTwo() {
         addProductFromFiltersToCart();
-        CartPage cartPage = new CartPage(DriverFactory.getDriver());
-        cartPage.openCart();
+        CartPage cartPage = new CartPage(DriverFactory.getDriver())
+                .openCart()
+                .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(partnerName, cartPage.getPartnerName());
         softAssert.assertAll();
@@ -59,8 +55,9 @@ public class CartFunctionalityTests {
     @Test
     public void TestThree() {
         addProductFromFiltersToCart();
-        CartPage cartPage = new CartPage(DriverFactory.getDriver());
-        cartPage.openCart();
+        CartPage cartPage = new CartPage(DriverFactory.getDriver())
+                .openCart()
+                .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(cartPage.getTheActualFullCost(), cartPage.getTheExpectedFullCost());
         softAssert.assertAll();
@@ -71,8 +68,9 @@ public class CartFunctionalityTests {
         addProductFromFiltersToCart();
         SelectedPartnerSPage selectedPartnerSPage = new SelectedPartnerSPage(DriverFactory.getDriver());
         int costOfFoodFromFoodPage = selectedPartnerSPage.getSelectedFoodCost(concreteTypeOfFood);
-        CartPage cartPage = new CartPage(DriverFactory.getDriver());
-        cartPage.openCart();
+        CartPage cartPage = new CartPage(DriverFactory.getDriver())
+                .openCart()
+                .waitForCartPageLoaded();
         int costOfFoodFromCartPage = cartPage.getTheCostOfFood();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(costOfFoodFromFoodPage, costOfFoodFromCartPage);
@@ -80,46 +78,44 @@ public class CartFunctionalityTests {
     }
 
     @Test
-    public void TestFive() throws InterruptedException {
+    public void TestFive() {
         addProductFromFiltersToCart();
-        SelectedPartnerSPage selectedPartnerSPage = new SelectedPartnerSPage(DriverFactory.getDriver());
-        selectedPartnerSPage.waitSelectedFoodPageLoaded();
-        selectedPartnerSPage.chooseFoodAndAddToCard(concreteTypeOfFood);
+        new SelectedPartnerSPage(DriverFactory.getDriver())
+                .waitForSelectedPartnersPageLoaded()
+                .chooseFood(concreteTypeOfFood)
+                .addToCart();
         FilteredFoodPage filteredFoodPage = new FilteredFoodPage(DriverFactory.getDriver());
         int shippingCostFromFilteredFoodPage = filteredFoodPage.getShippingCost(partnerName);
-        CartPage cartPage = new CartPage(DriverFactory.getDriver());
-        cartPage.openCart();
-        Thread.sleep(1000);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver())
+                .openCart()
+                .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals("2", cartPage.getCountOfItemsInTheCart());
+        softAssert.assertEquals(cartPage.getCountOfItemsInTheCart(),"2");
         softAssert.assertEquals(shippingCostFromFilteredFoodPage, cartPage.getShippingCost());
         softAssert.assertAll();
     }
 
     @Test
     public void TestSix() {
-        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
-        loginPage.clickOnDiscountsButton();
-        DiscountsPage discountsPage = new DiscountsPage(DriverFactory.getDriver());
-        discountsPage.waitForDiscountsPageLoaded();
         String concreteProductFromDiscountsPage = "Ընտանեկան կոմբո";
-        discountsPage.addAConcreteProductToTheCart(concreteProductFromDiscountsPage);
-        CartPage cartPage = new CartPage(DriverFactory.getDriver());
+        new LoginPage(DriverFactory.getDriver())
+                .clickOnDiscountsButton()
+                .waitForDiscountsPageLoaded()
+                .addAConcreteProductToTheCart(concreteProductFromDiscountsPage);
+        CartPage cartPage = new CartPage(DriverFactory.getDriver())
+                .openCart()
+                .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals("1", cartPage.getCountOfItemsInTheCart());
         softAssert.assertEquals(concreteProductFromDiscountsPage, cartPage.getTheNameOfTheProductFromTheCart());
         softAssert.assertAll();
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void clearCartAndLogOut() {
-        CartPage cartPage = new CartPage(DriverFactory.getDriver());
-        cartPage.openCart();
-        cartPage.waitForCartPageLoaded();
-        cartPage.clearCart();
-        LoginPage loginPage = new LoginPage(DriverFactory.getDriver());
-        loginPage.waitForLoginPageLoaded();
-        loginPage.logout();
+        new CartPage(DriverFactory.getDriver())
+                .clearCart()
+                .logout();
     }
 
     @AfterTest

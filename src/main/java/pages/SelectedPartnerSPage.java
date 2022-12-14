@@ -18,13 +18,13 @@ public class SelectedPartnerSPage extends BasePage {
     }
 
     @FindBy(xpath = "//span[text()='Ավելացնել զամբյուղ']")
-    protected WebElement buttonToAddToCart;
+    private WebElement buttonToAddToCart;
     @FindBy(xpath = "//img[@data-id='image']")
-    protected List<WebElement> listOfFoods;
-    protected String xpathForPreferredFood = "//h3[text()='%s']";
-    protected String xpathForAmount = "//h3[text()='%s']/parent::div/parent::div//span[@data-id='amount']";
+    private List<WebElement> listOfFoods;
+    private final String xpathForPreferredFood = "//h3[text()='%s']";
+    private final String xpathForAmount = "//h3[text()='%s']/parent::div/parent::div//span[@data-id='amount']";
 
-    public void chooseFoodAndAddToCard(String preferredFood) {
+    public SelectedPartnerSPage chooseFood(String preferredFood) {
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
                 .elementToBeClickable(By.xpath(String.format(xpathForPreferredFood, preferredFood))));
         try {
@@ -32,6 +32,9 @@ public class SelectedPartnerSPage extends BasePage {
         } catch (Exception e) {
             clickByJavaScriptExecutor(driver.findElement(By.xpath(String.format(xpathForPreferredFood, preferredFood))));
         }
+        return this;
+    }
+    public void addToCart(){
         buttonToAddToCart.click();
     }
 
@@ -43,10 +46,21 @@ public class SelectedPartnerSPage extends BasePage {
         return Integer.parseInt(driver.findElement(By.xpath(String.format(xpathForAmount, preferredFood))).getText());
     }
 
-    public void waitSelectedFoodPageLoaded() {
+    public SelectedPartnerSPage waitForSelectedPartnersPageLoaded() {
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//img[@data-id='image']"), 0));
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.elementToBeClickable(listOfFoods.get(listOfFoods.size() - 1)));
+        return this;
+    }
+
+    @Override
+    protected void load() {
+
+    }
+
+    @Override
+    protected void isLoaded() throws Error {
+
     }
 }
