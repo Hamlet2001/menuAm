@@ -5,7 +5,7 @@ import org.testng.annotations.*;
 import org.testng.asserts.SoftAssert;
 import pages.*;
 
-public class CartFunctionalityTests {
+public class CartFunctionalityTests extends BaseTest {
     private final String partnerName = "Պիցցա Միցցա";
     private final String concreteTypeOfFood = "Պիցցա Կեսար";
 
@@ -21,8 +21,7 @@ public class CartFunctionalityTests {
     }
 
     @BeforeMethod
-    public void initDriverAndOpenHomePageAndSignInAccountAndSetDeliveryAddress() {
-        DriverFactory.initDriver(BrowserType.CHROME);
+    public void openHomePageAndSignInAccountAndSetDeliveryAddress() {
         new HomePage(DriverFactory.getDriver())
                 .openHomePage()
                 .signIn()

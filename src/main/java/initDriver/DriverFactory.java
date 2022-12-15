@@ -7,29 +7,37 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
+import java.time.Duration;
+
 public class DriverFactory {
     private static WebDriver driver;
 
-    public static void initDriver(BrowserType browser) {
-        if (driver == null) {
-            switch (browser) {
-                case CHROME -> {
-                    WebDriverManager.chromedriver().setup();
-                    driver = new ChromeDriver();
-                }
-                case FIREFOX -> {
-                    WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver();
-                }
-                case SAFARI -> {
-                    WebDriverManager.safaridriver().setup();
-                    driver = new SafariDriver();
-                }
+    private static final ThreadLocal<WebDriver> DRIVER_THREAD_LOCAL = new ThreadLocal<>();
+
+    private static void initDriver(BrowserType browser) {
+        WebDriver driver;
+        switch (browser) {
+            case FIREFOX -> {
+                WebDriverManager.firefoxdriver().setup();
+                driver = new FirefoxDriver();
+            }
+            case SAFARI -> {
+                WebDriverManager.safaridriver().setup();
+                driver = new SafariDriver();
+            }
+            default -> {
+                WebDriverManager.chromedriver().setup();
+                driver = new ChromeDriver();
             }
         }
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        DRIVER_THREAD_LOCAL.set(driver);
     }
 
     public static WebDriver getDriver() {
-        return driver;
+        WebDriver driver = DRIVER_THREAD_LOCAL.get();
+        if (driver != null) return driver;
+        initDriver(BrowserType.valueOf(System.getProperty("browser").toUpperCase()));
+        return getDriver();
     }
 }
