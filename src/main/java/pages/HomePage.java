@@ -1,7 +1,10 @@
 package pages;
 
 import initDriver.DriverFactory;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -26,51 +29,36 @@ public class HomePage extends BasePage {
     private WebElement advertisement;
     @FindBy(xpath = "//span[text() = 'Լավ']")
     private WebElement buttonForCloseAdvertisement;
+    @FindBy(css = "input[name='user']")
+    private WebElement inputForEmail;
+    @FindBy(css = "input[name='pwd']")
+    private WebElement inputForPassword;
     @FindBy(xpath = "//span[text()='Մուտք']")
     private WebElement loginButton;
     @FindBy(xpath = "//span[text()='Ցույց տալ ավելին']")
     private WebElement showMoreButton;
 
-    public LoginPage signIn() {
+    public LoginPage signIn(String login, String password) {
         try {
             if (advertisement.isDisplayed()) {
                 new WebDriverWait(driver, Duration.ofSeconds(15)).
                         until(ExpectedConditions.elementToBeClickable(buttonForCloseAdvertisement));
                 buttonForCloseAdvertisement.click();
             }
-        } catch (NoSuchElementException ignored) {
+        } catch (Exception ignored) {
         }
         try {
             new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(loginButton));
             loginButton.click();
-        } catch (TimeoutException e) {
+        } catch (Exception e) {
             clickByJavaScriptExecutor(loginButton);
         }
-        driver.findElement(By.cssSelector("input[name='user']")).sendKeys("hamlet2001@inbox.ru");
-        driver.findElement(By.cssSelector("input[name='pwd']")).sendKeys("h123456", Keys.ENTER);
+        inputForEmail.sendKeys(login);
+        inputForPassword.sendKeys(password, Keys.ENTER);
         return new LoginPage(DriverFactory.getDriver());
     }
 
-//    public void waitForHomePageLoaded() {
-//        try {
-//            if (advertisement.isDisplayed()) {
-//                new WebDriverWait(driver, Duration.ofSeconds(15)).
-//                        until(ExpectedConditions.elementToBeClickable(buttonForCloseAdvertisement));
-//                buttonForCloseAdvertisement.click();
-//            }
-//        } catch (NoSuchElementException ignored) {
-//        }
-//        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
-//                elementToBeClickable(showMoreButton));
-//    }
-
-    @Override
-    protected void load() {
-
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
+    public HomePage waitForHomePageLoaded() {
         try {
             if (advertisement.isDisplayed()) {
                 new WebDriverWait(driver, Duration.ofSeconds(15)).
@@ -81,5 +69,6 @@ public class HomePage extends BasePage {
         }
         new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
                 elementToBeClickable(showMoreButton));
+        return this;
     }
 }

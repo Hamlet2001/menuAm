@@ -133,16 +133,6 @@ public class CartPage extends BasePage {
         }
         new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(loginButton));
     }
-
-    @Override
-    protected void load() {
-
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-
-    }
 }
 
 

@@ -1,36 +1,45 @@
-import initDriver.BrowserType;
 import initDriver.DriverFactory;
-import org.openqa.selenium.WebDriver;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import pages.*;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class CartFunctionalityTests extends BaseTest {
     private final String partnerName = "Պիցցա Միցցա";
     private final String concreteTypeOfFood = "Պիցցա Կեսար";
+    private final String filePath = "C:\\Users\\Hamlet\\Desktop\\menuAm\\menuAm\\.properties";
+
+    public CartFunctionalityTests() {
+    }
+
 
     public void addProductFromFiltersToCart() {
         String preferredFoodType = "Պիցցա";
         new LoginPage(DriverFactory.getDriver())
                 .chooseFoodType(preferredFoodType)
-                .waitForAllPartnersLoaded()
+                .waitForPartnersLoaded()
                 .choosePartner(partnerName)
                 .waitForSelectedPartnersPageLoaded()
                 .chooseFood(concreteTypeOfFood)
                 .addToCart();
     }
 
-    @BeforeMethod
-    public void openHomePageAndSignInAccountAndSetDeliveryAddress() {
+    @Test
+    public void TestOne() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        properties.load(fileInputStream);
+        String login3 = properties.getProperty("login3");
+        String password3 = properties.getProperty("password3");
         new HomePage(DriverFactory.getDriver())
                 .openHomePage()
-                .signIn()
+                .signIn(login3, password3)
                 .waitForLoginPageLoaded()
                 .setDeliveryAddress();
-    }
-
-    @Test
-    public void TestOne() {
         addProductFromFiltersToCart();
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
                 .openCart()
@@ -41,7 +50,17 @@ public class CartFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void TestTwo() {
+    public void TestTwo() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        properties.load(fileInputStream);
+        String login1 = properties.getProperty("login1");
+        String password1 = properties.getProperty("password1");
+        new HomePage(DriverFactory.getDriver())
+                .openHomePage()
+                .signIn(login1, password1)
+                .waitForLoginPageLoaded()
+                .setDeliveryAddress();
         addProductFromFiltersToCart();
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
                 .openCart()
@@ -52,7 +71,18 @@ public class CartFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void TestThree() {
+    public void TestThree() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        properties.load(fileInputStream);
+        String login2 = properties.getProperty("login2");
+        String password2 = properties.getProperty("password2");
+        new HomePage(DriverFactory.getDriver())
+                .openHomePage()
+                .waitForHomePageLoaded()
+                .signIn(login2, password2)
+                .waitForLoginPageLoaded()
+                .setDeliveryAddress();
         addProductFromFiltersToCart();
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
                 .openCart()
@@ -63,7 +93,17 @@ public class CartFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void TestFour() {
+    public void TestFour() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        properties.load(fileInputStream);
+        String login2 = properties.getProperty("login2");
+        String password2 = properties.getProperty("password2");
+        new HomePage(DriverFactory.getDriver())
+                .openHomePage()
+                .signIn(login2, password2)
+                .waitForLoginPageLoaded()
+                .setDeliveryAddress();
         addProductFromFiltersToCart();
         SelectedPartnerSPage selectedPartnerSPage = new SelectedPartnerSPage(DriverFactory.getDriver());
         int costOfFoodFromFoodPage = selectedPartnerSPage.getSelectedFoodCost(concreteTypeOfFood);
@@ -77,7 +117,17 @@ public class CartFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void TestFive() {
+    public void TestFive() throws IOException {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        properties.load(fileInputStream);
+        String login1 = properties.getProperty("login1");
+        String password1 = properties.getProperty("password1");
+        new HomePage(DriverFactory.getDriver())
+                .openHomePage()
+                .signIn(login1, password1)
+                .waitForLoginPageLoaded()
+                .setDeliveryAddress();
         addProductFromFiltersToCart();
         new SelectedPartnerSPage(DriverFactory.getDriver())
                 .waitForSelectedPartnersPageLoaded()
@@ -89,21 +139,31 @@ public class CartFunctionalityTests extends BaseTest {
                 .openCart()
                 .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(cartPage.getCountOfItemsInTheCart(),"2");
+        softAssert.assertEquals(cartPage.getCountOfItemsInTheCart(), "2");
         softAssert.assertEquals(shippingCostFromFilteredFoodPage, cartPage.getShippingCost());
         softAssert.assertAll();
     }
 
     @Test
-    public void TestSix() {
+    public void TestSix() throws InterruptedException, IOException {
+        Properties properties = new Properties();
+        FileInputStream fileInputStream = new FileInputStream(filePath);
+        properties.load(fileInputStream);
+        String login3 = properties.getProperty("login3");
+        String password3 = properties.getProperty("password3");
         String concreteProductFromDiscountsPage = "Ընտանեկան կոմբո";
+        new HomePage(DriverFactory.getDriver())
+                .openHomePage()
+                .signIn(login3, password3)
+                .waitForLoginPageLoaded()
+                .setDeliveryAddress();
         new LoginPage(DriverFactory.getDriver())
                 .clickOnDiscountsButton()
                 .waitForDiscountsPageLoaded()
                 .addAConcreteProductToTheCart(concreteProductFromDiscountsPage);
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
-                .openCart()
-                .waitForCartPageLoaded();
+                .openCart();
+        Thread.sleep(2000);
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals("1", cartPage.getCountOfItemsInTheCart());
         softAssert.assertEquals(concreteProductFromDiscountsPage, cartPage.getTheNameOfTheProductFromTheCart());
@@ -119,6 +179,6 @@ public class CartFunctionalityTests extends BaseTest {
 
     @AfterMethod
     public void tearDown() {
-       DriverFactory.quitDriver();
+        DriverFactory.quitDriver();
     }
 }

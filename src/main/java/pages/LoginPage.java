@@ -83,14 +83,4 @@ public class LoginPage extends BasePage {
                 until(ExpectedConditions.elementToBeClickable(accountButton));
         return this;
     }
-
-    @Override
-    protected void load() {
-
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-
-    }
 }

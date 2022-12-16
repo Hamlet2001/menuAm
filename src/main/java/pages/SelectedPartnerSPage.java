@@ -34,7 +34,8 @@ public class SelectedPartnerSPage extends BasePage {
         }
         return this;
     }
-    public void addToCart(){
+
+    public void addToCart() {
         buttonToAddToCart.click();
     }
 
@@ -52,15 +53,5 @@ public class SelectedPartnerSPage extends BasePage {
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.elementToBeClickable(listOfFoods.get(listOfFoods.size() - 1)));
         return this;
-    }
-
-    @Override
-    protected void load() {
-
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-
     }
 }

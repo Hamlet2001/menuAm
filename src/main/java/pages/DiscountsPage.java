@@ -18,7 +18,7 @@ public class DiscountsPage extends BasePage {
 
     @FindBy(xpath = "//div[@data-id='product']")
     private List<WebElement> listOfOffers;
-    private String xpathForConcreteProductToAddToCart =
+    private final String xpathForConcreteProductToAddToCart =
             "//h3[text()='%s']//parent::div/following-sibling::div/div[@data-id='add-to-cart']";
 
     public void addAConcreteProductToTheCart(String concreteProductFromDiscountsPage) {
@@ -33,15 +33,5 @@ public class DiscountsPage extends BasePage {
         new WebDriverWait(driver, ofSeconds(20)).
                 until(ExpectedConditions.elementToBeClickable(listOfOffers.get(listOfOffers.size() - 1)));
         return this;
-    }
-
-    @Override
-    protected void load() {
-
-    }
-
-    @Override
-    protected void isLoaded() throws Error {
-
     }
 }
