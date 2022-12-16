@@ -10,7 +10,6 @@ import org.openqa.selenium.safari.SafariDriver;
 import java.time.Duration;
 
 public class DriverFactory {
-    private static WebDriver driver;
 
     private static final ThreadLocal<WebDriver> DRIVER_THREAD_LOCAL = new ThreadLocal<>();
 
@@ -39,5 +38,10 @@ public class DriverFactory {
         if (driver != null) return driver;
         initDriver(BrowserType.valueOf(System.getProperty("browser").toUpperCase()));
         return getDriver();
+    }
+
+    public static void quitDriver() {
+        DRIVER_THREAD_LOCAL.get().quit();
+        DRIVER_THREAD_LOCAL.remove();
     }
 }

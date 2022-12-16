@@ -117,11 +117,8 @@ public class CartFunctionalityTests extends BaseTest {
                 .logout();
     }
 
-    @AfterTest
+    @AfterMethod
     public void tearDown() {
-        WebDriver driver = DriverFactory.getDriver();
-        if (driver != null) {
-            driver.quit();
-        }
+       DriverFactory.quitDriver();
     }
 }
