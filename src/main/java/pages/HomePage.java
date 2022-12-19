@@ -41,7 +41,7 @@ public class HomePage extends BasePage {
     public LoginPage signIn(String login, String password) {
         try {
             if (advertisement.isDisplayed()) {
-                new WebDriverWait(driver, Duration.ofSeconds(15)).
+                new WebDriverWait(driver, Duration.ofSeconds(20)).
                         until(ExpectedConditions.elementToBeClickable(buttonForCloseAdvertisement));
                 buttonForCloseAdvertisement.click();
             }
@@ -61,13 +61,13 @@ public class HomePage extends BasePage {
     public HomePage waitForHomePageLoaded() {
         try {
             if (advertisement.isDisplayed()) {
-                new WebDriverWait(driver, Duration.ofSeconds(15)).
+                new WebDriverWait(driver, Duration.ofSeconds(20)).
                         until(ExpectedConditions.elementToBeClickable(buttonForCloseAdvertisement));
                 buttonForCloseAdvertisement.click();
             }
         } catch (NoSuchElementException ignored) {
         }
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.
                 elementToBeClickable(showMoreButton));
         return this;
     }

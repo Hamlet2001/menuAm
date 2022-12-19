@@ -11,13 +11,9 @@ import java.util.Properties;
 public class CartFunctionalityTests extends BaseTest {
     private final String partnerName = "Պիցցա Միցցա";
     private final String concreteTypeOfFood = "Պիցցա Կեսար";
-    private final String filePath = "C:\\Users\\Hamlet\\Desktop\\menuAm\\menuAm\\.properties";
+    private final String filePath = "C:\\Users\\Hamlet\\Desktop\\menuAm\\.properties";
 
-    public CartFunctionalityTests() {
-    }
-
-
-    public void addProductFromFiltersToCart() {
+    public void addProductFromFiltersAndToCart() {
         String preferredFoodType = "Պիցցա";
         new LoginPage(DriverFactory.getDriver())
                 .chooseFoodType(preferredFoodType)
@@ -40,7 +36,7 @@ public class CartFunctionalityTests extends BaseTest {
                 .signIn(login3, password3)
                 .waitForLoginPageLoaded()
                 .setDeliveryAddress();
-        addProductFromFiltersToCart();
+        addProductFromFiltersAndToCart();
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
                 .openCart()
                 .waitForCartPageLoaded();
@@ -61,7 +57,7 @@ public class CartFunctionalityTests extends BaseTest {
                 .signIn(login1, password1)
                 .waitForLoginPageLoaded()
                 .setDeliveryAddress();
-        addProductFromFiltersToCart();
+        addProductFromFiltersAndToCart();
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
                 .openCart()
                 .waitForCartPageLoaded();
@@ -83,7 +79,7 @@ public class CartFunctionalityTests extends BaseTest {
                 .signIn(login2, password2)
                 .waitForLoginPageLoaded()
                 .setDeliveryAddress();
-        addProductFromFiltersToCart();
+        addProductFromFiltersAndToCart();
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
                 .openCart()
                 .waitForCartPageLoaded();
@@ -104,7 +100,7 @@ public class CartFunctionalityTests extends BaseTest {
                 .signIn(login2, password2)
                 .waitForLoginPageLoaded()
                 .setDeliveryAddress();
-        addProductFromFiltersToCart();
+        addProductFromFiltersAndToCart();
         SelectedPartnerSPage selectedPartnerSPage = new SelectedPartnerSPage(DriverFactory.getDriver());
         int costOfFoodFromFoodPage = selectedPartnerSPage.getSelectedFoodCost(concreteTypeOfFood);
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
@@ -128,7 +124,7 @@ public class CartFunctionalityTests extends BaseTest {
                 .signIn(login1, password1)
                 .waitForLoginPageLoaded()
                 .setDeliveryAddress();
-        addProductFromFiltersToCart();
+        addProductFromFiltersAndToCart();
         new SelectedPartnerSPage(DriverFactory.getDriver())
                 .waitForSelectedPartnersPageLoaded()
                 .chooseFood(concreteTypeOfFood)
@@ -145,28 +141,28 @@ public class CartFunctionalityTests extends BaseTest {
     }
 
     @Test
-    public void TestSix() throws InterruptedException, IOException {
+    public void TestSix() throws IOException, InterruptedException {
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream(filePath);
         properties.load(fileInputStream);
         String login3 = properties.getProperty("login3");
         String password3 = properties.getProperty("password3");
-        String concreteProductFromDiscountsPage = "Ընտանեկան կոմբո";
         new HomePage(DriverFactory.getDriver())
                 .openHomePage()
                 .signIn(login3, password3)
                 .waitForLoginPageLoaded()
                 .setDeliveryAddress();
+        String concreteProductNameFromDiscountsPage = "Ընտանեկան կոմբո";
         new LoginPage(DriverFactory.getDriver())
                 .clickOnDiscountsButton()
                 .waitForDiscountsPageLoaded()
-                .addAConcreteProductToTheCart(concreteProductFromDiscountsPage);
+                .addAConcreteProductToTheCart(concreteProductNameFromDiscountsPage);
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
-                .openCart();
-        Thread.sleep(2000);
+                .openCart()
+                .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals("1", cartPage.getCountOfItemsInTheCart());
-        softAssert.assertEquals(concreteProductFromDiscountsPage, cartPage.getTheNameOfTheProductFromTheCart());
+        softAssert.assertEquals(cartPage.getTheNameOfTheProductFromTheCart(), concreteProductNameFromDiscountsPage);
         softAssert.assertAll();
     }
 

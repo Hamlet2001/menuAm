@@ -19,9 +19,9 @@ public class LoginPage extends BasePage {
     }
 
     @FindBy(xpath = "//div[text()='Պահպանված հասցեներ']")
-    private WebElement deliveryAddresses;
+    private WebElement savedAddresses;
     @FindBy(xpath = "//ul[@data-id='addresses']/li")
-    private WebElement submitAddressButton;
+    private WebElement myAddressButton;
     @FindBy(xpath = "//span[text()='Զեղչեր']")
     private WebElement discountsButton;
     @FindBy(xpath = "//button[@aria-label='account control']")
@@ -33,10 +33,10 @@ public class LoginPage extends BasePage {
 
     public void setDeliveryAddress() {
         try {
-            new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(deliveryAddresses));
-            deliveryAddresses.click();
+            new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(savedAddresses));
+            savedAddresses.click();
         } catch (Exception e) {
-            clickByJavaScriptExecutor(deliveryAddresses);
+            clickByJavaScriptExecutor(savedAddresses);
         }
         try {
             if (myDeliveryAddressIsSelected()) {
@@ -44,10 +44,10 @@ public class LoginPage extends BasePage {
             }
         } catch (NoSuchElementException e) {
             try {
-                new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(submitAddressButton));
-                submitAddressButton.click();
+                new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(myAddressButton));
+                myAddressButton.click();
             } catch (Exception ex) {
-                clickByJavaScriptExecutor(submitAddressButton);
+                clickByJavaScriptExecutor(myAddressButton);
             }
         }
     }
@@ -58,7 +58,7 @@ public class LoginPage extends BasePage {
 
     public FilteredFoodPage chooseFoodType(String foodType) {
         try {
-            new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(By.xpath(String.format(xpathForFoodCategory, foodType))));
             driver.findElement(By.xpath(String.format(xpathForFoodCategory, foodType))).click();
         } catch (Exception e) {
@@ -69,7 +69,7 @@ public class LoginPage extends BasePage {
 
     public DiscountsPage clickOnDiscountsButton() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(discountsButton));
             discountsButton.click();
         } catch (Exception e) {

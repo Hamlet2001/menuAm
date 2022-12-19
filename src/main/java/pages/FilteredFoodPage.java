@@ -30,7 +30,7 @@ public class FilteredFoodPage extends BasePage {
 
     public SelectedPartnerSPage choosePartner(String partner) {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(By.xpath(String.format(xpathForPartner, partner))));
             driver.findElement(By.xpath(String.format(xpathForPartner, partner))).click();
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class FilteredFoodPage extends BasePage {
     }
 
     public int getShippingCost(String partner) {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(String.format(xpathForPartnerShippingCost, partner))));
         String string = driver.findElement(By.xpath(String.format(xpathForPartnerShippingCost, partner))).getText();
         Pattern pattern = Pattern.compile("[0-9]+");

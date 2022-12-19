@@ -25,7 +25,7 @@ public class SelectedPartnerSPage extends BasePage {
     private final String xpathForAmount = "//h3[text()='%s']/parent::div/parent::div//span[@data-id='amount']";
 
     public SelectedPartnerSPage chooseFood(String preferredFood) {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .elementToBeClickable(By.xpath(String.format(xpathForPreferredFood, preferredFood))));
         try {
             driver.findElement(By.xpath(String.format(xpathForPreferredFood, preferredFood))).click();
@@ -40,17 +40,17 @@ public class SelectedPartnerSPage extends BasePage {
     }
 
     public int getSelectedFoodCost(String preferredFood) {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .elementToBeClickable(By.xpath(String.format(xpathForPreferredFood, preferredFood))));
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath(String.format(xpathForAmount, preferredFood))));
         return Integer.parseInt(driver.findElement(By.xpath(String.format(xpathForAmount, preferredFood))).getText());
     }
 
     public SelectedPartnerSPage waitForSelectedPartnersPageLoaded() {
-        new WebDriverWait(driver, ofSeconds(20)).
+        new WebDriverWait(driver, ofSeconds(30)).
                 until(ExpectedConditions.numberOfElementsToBeMoreThan(By.xpath("//img[@data-id='image']"), 0));
-        new WebDriverWait(driver, ofSeconds(20)).
+        new WebDriverWait(driver, ofSeconds(30)).
                 until(ExpectedConditions.elementToBeClickable(listOfFoods.get(listOfFoods.size() - 1)));
         return this;
     }

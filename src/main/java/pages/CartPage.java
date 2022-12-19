@@ -45,7 +45,7 @@ public class CartPage extends BasePage {
 
     public CartPage openCart() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(cartButton));
             cartButton.click();
         } catch (Exception e) {
@@ -55,18 +55,18 @@ public class CartPage extends BasePage {
     }
 
     public String getCountOfItemsInTheCart() {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .visibilityOf(spanForCountOfItemsInCart));
         return spanForCountOfItemsInCart.getText();
     }
 
     public int getShippingCost() {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.visibilityOf(spanForDeliveryCost));
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(spanForDeliveryCost));
         return Integer.parseInt(spanForDeliveryCost.getText());
     }
 
     public int getTheCostOfFood() {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .visibilityOf(spanForCost));
         return Integer.parseInt(spanForCost.getText());
     }
@@ -76,20 +76,20 @@ public class CartPage extends BasePage {
     }
 
     public String getPartnerName() {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.visibilityOf(divForPartner));
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(divForPartner));
         return divForPartner.getText();
     }
 
     public CartPage clearCart() {
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(clearAllButton));
             clearAllButton.click();
         } catch (Exception e) {
             clickByJavaScriptExecutor(clearAllButton);
         }
         try {
-            new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(buttonToEmpty));
             buttonToEmpty.click();
         } catch (Exception e) {
@@ -99,39 +99,39 @@ public class CartPage extends BasePage {
     }
 
     public int getTheExpectedFullCost() {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .visibilityOf(spanForFullCost));
         return Integer.parseInt(spanForFullCost.getText());
     }
 
     public String getTheNameOfTheProductFromTheCart() {
         openCart();
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
                 .visibilityOf(divForProductNameInCart));
         return divForProductNameInCart.getText();
     }
 
     public CartPage waitForCartPageLoaded() {
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(orderNowButton));
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(orderNowButton));
         return this;
     }
 
     public void logout() {
         try {
-            new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(accountButton));
             accountButton.click();
         } catch (Exception e) {
             clickByJavaScriptExecutor(accountButton);
         }
         try {
-            new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions
+            new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions
                     .elementToBeClickable(buttonForLogout));
             buttonForLogout.click();
         } catch (Exception e) {
             clickByJavaScriptExecutor(buttonForLogout);
         }
-        new WebDriverWait(driver, ofSeconds(15)).until(ExpectedConditions.elementToBeClickable(loginButton));
+        new WebDriverWait(driver, ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(loginButton));
     }
 }
 
