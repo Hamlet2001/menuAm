@@ -41,7 +41,7 @@ public class CartFunctionalityTests extends BaseTest {
                 .openCart()
                 .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals("1", cartPage.getCountOfItemsInTheCart());
+        softAssert.assertEquals(cartPage.getCountOfItemsInTheCart(), "1");
         softAssert.assertAll();
     }
 
@@ -50,8 +50,8 @@ public class CartFunctionalityTests extends BaseTest {
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream(filePath);
         properties.load(fileInputStream);
-        String login1 = properties.getProperty("login1");
-        String password1 = properties.getProperty("password1");
+        String login1 = properties.getProperty("login3");
+        String password1 = properties.getProperty("password3");
         new HomePage(DriverFactory.getDriver())
                 .openHomePage()
                 .signIn(login1, password1)
@@ -62,7 +62,7 @@ public class CartFunctionalityTests extends BaseTest {
                 .openCart()
                 .waitForCartPageLoaded();
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(partnerName, cartPage.getPartnerName());
+        softAssert.assertEquals(cartPage.getPartnerName(), partnerName);
         softAssert.assertAll();
     }
 
@@ -145,8 +145,8 @@ public class CartFunctionalityTests extends BaseTest {
         Properties properties = new Properties();
         FileInputStream fileInputStream = new FileInputStream(filePath);
         properties.load(fileInputStream);
-        String login3 = properties.getProperty("login3");
-        String password3 = properties.getProperty("password3");
+        String login3 = properties.getProperty("login1");
+        String password3 = properties.getProperty("password1");
         new HomePage(DriverFactory.getDriver())
                 .openHomePage()
                 .signIn(login3, password3)
@@ -158,10 +158,10 @@ public class CartFunctionalityTests extends BaseTest {
                 .waitForDiscountsPageLoaded()
                 .addAConcreteProductToTheCart(concreteProductNameFromDiscountsPage);
         CartPage cartPage = new CartPage(DriverFactory.getDriver())
-                .openCart()
-                .waitForCartPageLoaded();
+                .openCart();
+        Thread.sleep(6000);
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals("1", cartPage.getCountOfItemsInTheCart());
+        softAssert.assertEquals(cartPage.getCountOfItemsInTheCart(), "1");
         softAssert.assertEquals(cartPage.getTheNameOfTheProductFromTheCart(), concreteProductNameFromDiscountsPage);
         softAssert.assertAll();
     }

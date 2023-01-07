@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -55,13 +56,15 @@ public class CartPage extends BasePage {
     }
 
     public String getCountOfItemsInTheCart() {
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
+        new WebDriverWait(driver, Duration.ofSeconds(25)).until(ExpectedConditions
                 .visibilityOf(spanForCountOfItemsInCart));
-        return spanForCountOfItemsInCart.getText();
+        WebElement el = driver.findElement(By.xpath("//div[@data-id='quantity']//input[@type='text']"));
+        String count = el.getAttribute("value");
+        return count;
     }
 
     public int getShippingCost() {
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.visibilityOf(spanForDeliveryCost));
+        new WebDriverWait(driver, Duration.ofSeconds(25)).until(ExpectedConditions.visibilityOf(spanForDeliveryCost));
         return Integer.parseInt(spanForDeliveryCost.getText());
     }
 
@@ -105,13 +108,11 @@ public class CartPage extends BasePage {
     }
 
     public String getTheNameOfTheProductFromTheCart() {
-        openCart();
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions
-                .visibilityOf(divForProductNameInCart));
         return divForProductNameInCart.getText();
     }
 
     public CartPage waitForCartPageLoaded() {
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(clearAllButton));
         new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.elementToBeClickable(orderNowButton));
         return this;
     }
